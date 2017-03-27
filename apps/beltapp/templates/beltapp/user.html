@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Index Page</title>
+      {% load staticfiles %}
+      <link rel="stylesheet" href="{% static 'beltapp/css/bootstrap.css' %}">
+   </head>
+   <body>
+      <div class="container">
+         <div class="row">
+            <div class="col-md-8">
+               <h2>Posts by: {{request.session.name}}</h2>
+                  <p>Count: {{counts}}</p>
+
+            </div>
+            <div class="col-md-4">
+               <a href="{% url 'belt:index' %}">Dashboard</a> |
+               <a href="{% url 'login:logout' %}">Logout</a>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col">
+               {% for quote in quotes %}
+               <ul>
+                  <h5><span style="color:red;">{{quote.quoter}}</span>: {{quote.message}}</h5>
+               </ul>
+               {%endfor %}
+
+            </div>
+
+         </div>
+      </div>
+   </body>
+</html>
