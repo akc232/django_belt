@@ -35,11 +35,12 @@
                   <p>Posted by: <a href="{% url 'belt:user' quote.user.id %}">{{quote.user.first_name}}</a></p>
                   <form class="" action="{% url 'belt:add' quote.id %}" method="post">
                      {% csrf_token %}
-                     <input type="hidden" name="user" value="{{request.session.id}}">
+                     <input type="hidden" name="uid" value="{{request.session.id}}">
                      <input type="hidden" name="quote" value="{{quote.id}}">
+                     <input type="hidden" name="quoter" value="{{quote.quoter}}">
+                     <input type="hidden" name="message" value="{{quote.message}}">
                      <button type="submit" name="submit" class="btn btn-default" style="margin-left:150px;">Add to My List</button>
                   </form>
-
                </ul>
                {% endfor %}
 
@@ -49,12 +50,18 @@
                <div class="row" style="border: 1px solid black; height:300px; overflow:scroll;">
                   {% for fav in favs %}
                   <ul style= "border: 1px solid black; margin:10px; ">
-                     <h5><u>{{fav.quote.quoter}}</u>: {{fav.quote.message}}</h5>
+                     <h5><u>{{fav.fav_quoter}}</u>: {{fav.fav_message}}</h5>
 
                      <br>
                      <br>
-                     <p>Posted by: <a href="{% url 'belt:user' fav.quote.user.id %}">{{fav.quote.user.first_name}}</a></p>
-                     <button type="button" name="button" class="btn btn-default"><a href="{% url 'belt:destroy' fav.id %}">Remove</a></button>
+                     <p>Posted by: <a href="{% url 'belt:user' fav.user.id %}">{{fav.user.first_name}}</a></p>
+                     <form class="readd" action="{% url 'belt:destroy' fav.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id" value="{{fav.user.id}}">
+                        <input type="hidden" name="quoter" value="{{fav.fav_quoter}}">
+                        <input type="hidden" name="message" value="{{fav.fav_message}}">
+                        <button type="submit" name="button" class="btn btn-default">Remove Quote</button>
+                     </form>
                   </ul>
                   {% endfor %}
                </div>
@@ -73,6 +80,11 @@
                      <button type="submit" name="submit" class="btn btn-default">Submit</button>
                   </form>
                </div>
+
+               {% for filter in filters %}
+               {{filter}}
+               <p>test</p>
+               {% endfor %}
 
             </div>
             <!-- <div class="col-md-4" style="border: 1px solid black; margin-left: 120px;">

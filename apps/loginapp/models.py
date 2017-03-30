@@ -5,6 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned, 
 import re, bcrypt
 from django_counter_field import CounterField
 
+
+
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
 NAME_REGEX = re.compile(r'^[a-zA-Z\-]+$')
 # BIRTHDAY_REGEX= re.compile(r'^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$')
@@ -63,7 +65,7 @@ class UserManager(models.Manager):
                 password=hashed,
                 )
                 # print "Birthday data ---->", data['birthday']
-                # flash.append("Succesful! User Registered!!")
+                flash.append("Succesful! User Registered!!")
                 return (True, flash, create)
             except ValidationError:
                 flash.append('Invalid Date Format! Please enter Date!')
@@ -72,6 +74,7 @@ class UserManager(models.Manager):
 
     def check_user(self, data):
         flash=[]
+
         try:
             registered=User.objects.get(email=data['email'])
             # print registered.id,"from models"

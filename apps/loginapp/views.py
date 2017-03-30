@@ -12,10 +12,12 @@ def index(request):
 
 def process(request):
     process=User.objects.create_new_user(request.POST)
-    print process
+    print process, "process session"
+    # print process
 
 
     if process[0] == False:
+        print process[1]
         for error in process[1]:
             messages.error(request, error)
         return redirect ('login:index')
@@ -26,13 +28,15 @@ def process(request):
         request.session['name']= process[2].first_name
         request.session['last']= process[2].last_name
         request.session['email']= process[2].email
-        print process
+        # print process
 
         return redirect('belt:index')
 
 def login(request):
 
     result= User.objects.check_user(request.POST)
+    print result," login session"
+    print result[1].id
 
 
     if result[0] ==False:
@@ -60,5 +64,5 @@ def success(request):
 
 def logout(request):
     request.session.clear()
-    print  "session"
+    # print  "session"
     return redirect ('login:index')
